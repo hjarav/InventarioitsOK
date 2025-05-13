@@ -1,0 +1,90 @@
+
+import React,{Component} from 'react'
+import axios from 'axios'
+import './App.css';
+
+class App extends Component{
+  constructor(){
+    super()
+    this.state = {
+      codigo: '',
+      nombre_producto: '',
+      descripcion: '',
+      marca: '',
+      valor: '',
+      cantidad: ''
+    }
+    this.handleChange =  this.handleChange.bind(this)
+    this.addtarea = this.addtarea.bind(this)
+  }
+
+  handleChange(e){
+    const {name, value} = e.target
+    this.setState({
+      [name]: value
+    })
+  }
+  addtarea(e){
+    const API='http://localhost:4000'
+    const agregarTarea = tar => axios.post(`${API}/api/inventario`,tar)
+    agregarTarea(this.state)
+    console.log("Tarea Agregada")
+    e.preventDefault()
+  }
+
+  render(){
+    return(
+      <div>
+        {/* Navegación */}
+        <nav className='light-blue darken-4'>
+          <div className='container'>
+            <a className='brand-logo' href='/'>STACK-MERN</a>
+          </div>
+        </nav>
+        <div className='container'>
+          <div className='row'>
+            <div className='col s5'>
+              <div className='col s7'>
+                <div className='card'>
+                  <div className='card-content'>
+                    <form onSubmit={this.addtarea}>
+                      <div className='row'>
+                        <div className='input-field col s12'>
+                          <input name='codigo' type='text' placeholder='Código Producto' onChange={this.handleChange} />
+                        </div>
+                        <div className='input-field col s12'>
+                          <input name='nombre_producto' type='text' placeholder='Nombre Producto' onChange={this.handleChange} />
+                        </div>
+                        <div className='row'>
+                          <div className='input-field col s12'>
+                            <textarea name='descripcion' onChange={this.handleChange} className='materialize-textarea' placeholder='Descripción' />
+                          </div>
+                        </div>
+                        <div className='input-field col s12'>
+                          <input name='marca' type='text' placeholder='Marca Producto' onChange={this.handleChange} />
+                        </div>
+                        <div className='input-field col s12'>
+                          <input name='valor' type='text' placeholder='Valor Producto' onChange={this.handleChange} />
+                        </div>
+                        <div className='input-field col s12'>
+                          <input name='cantidad' type='text' placeholder='Cantidad' onChange={this.handleChange} />
+                        </div>
+
+                        <button className='btn light-blue darken-4'>Enviar</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    )
+  }
+}
+
+
+
+export default App;
